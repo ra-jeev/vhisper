@@ -4,7 +4,8 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  audioData: Readonly<number[]> | null;
+  audioData: Readonly<Uint8Array> | null;
+  dataUpdateTrigger: number;
 }>();
 
 const width = 600;
@@ -54,7 +55,11 @@ const drawCanvas = () => {
   ctx.stroke();
 };
 
-watchEffect(() => {
-  drawCanvas();
-});
+watch(
+  () => props.dataUpdateTrigger,
+  () => {
+    drawCanvas();
+  },
+  { immediate: true }
+);
 </script>
