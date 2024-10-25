@@ -4,12 +4,12 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  audioData: Readonly<Uint8Array> | null;
+  audioData: Uint8Array | null;
   dataUpdateTrigger: number;
 }>();
 
-const width = 600;
-const height = 200;
+const width = 320;
+const height = 48;
 const audioCanvas = useTemplateRef('canvas');
 const canvasCtx = ref<CanvasRenderingContext2D | null>(null);
 
