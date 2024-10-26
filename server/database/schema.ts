@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import { sql } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { createInsertSchema } from 'drizzle-zod';
 
 export const users = sqliteTable('users', {
   id: text('id')
@@ -14,3 +15,5 @@ export const users = sqliteTable('users', {
     sql`(CURRENT_TIMESTAMP)`
   ),
 });
+
+export const insertUserSchema = createInsertSchema(users);
