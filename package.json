@@ -17,6 +17,7 @@
     "@nuxt/ui": "^2.18.7",
     "@nuxthub/core": "^0.8.2",
     "drizzle-orm": "^0.35.3",
+    "drizzle-zod": "^0.5.1",
     "nuxt": "^3.13.2",
     "nuxt-auth-utils": "^0.5.0",
     "vue": "^3.5.12",
