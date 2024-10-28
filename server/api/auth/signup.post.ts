@@ -1,9 +1,9 @@
-import { insertUserSchema } from '~~/server/database/schema';
+import { signUpSchema } from '~~/types';
 
 export default defineEventHandler(async (event) => {
   const { name, username, password } = await readValidatedBody(
     event,
-    insertUserSchema.parse
+    signUpSchema.parse
   );
 
   const hashedPassword = await hashPassword(password);

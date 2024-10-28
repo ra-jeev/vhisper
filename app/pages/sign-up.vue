@@ -88,14 +88,13 @@
 
 <script setup lang="ts">
 import { FetchError } from 'ofetch';
-import { signUpSchema } from '~~/types';
+import { signUpSchema, type SignUpSchemaType } from '~~/types';
 import type { Form, FormSubmitEvent } from '#ui/types';
-import type { SignUpSchema } from '~~/types';
 
 const showPassword = ref(false);
 const loading = ref(false);
 const formError = ref('');
-const form = useTemplateRef<Form<SignUpSchema>>('form');
+const form = useTemplateRef<Form<SignUpSchemaType>>('form');
 
 const state = reactive({
   name: undefined,
@@ -104,7 +103,7 @@ const state = reactive({
 });
 
 const { fetch: refreshSession } = useUserSession();
-const onSignUp = async (event: FormSubmitEvent<SignUpSchema>) => {
+const onSignUp = async (event: FormSubmitEvent<SignUpSchemaType>) => {
   loading.value = true;
   form.value?.clear();
   formError.value = '';
