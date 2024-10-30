@@ -1,6 +1,6 @@
 import { createInsertSchema } from 'drizzle-zod';
-import type { z } from 'zod';
-import { users } from '~~/server/database/schema';
+import { z } from 'zod';
+import { users, notes } from '~~/server/database/schema';
 
 const userValidationRules = {
   username: {
@@ -65,3 +65,28 @@ export const signInSchema = signUpSchema.omit({ name: true });
 
 export type SignInSchemaType = z.output<typeof signInSchema>;
 export type SignUpSchemaType = z.output<typeof signUpSchema>;
+
+export const notesSchema = createInsertSchema(notes, {
+  title: (schema) =>
+    schema.title
+      .min(3, 'Title must be at least 3 characters long')
+      .max(50, 'Title cannot exceed 50 characters'),
+  content: (schema) =>
+    schema.content
+      .min(3, 'Content must be at least 3 characters long')
+      .max(5000, 'Content cannot exceed 5000 characters'),
+  audioUrls: z
+    .object({
+      url: z.string().url('Audio URL must be a valid URL'),
+      duration: z.number().positive('Duration must be a positive number'),
+      recordedAt: z.number().positive('Recorded at must be a positive number'),
+    })
+    .array()
+    .optional(),
+}).pick({
+  title: true,
+  content: true,
+  audioUrls: true,
+});
+
+export type NotesSchemaType = z.output<typeof notesSchema>;
