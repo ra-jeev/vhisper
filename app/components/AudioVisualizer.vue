@@ -1,5 +1,5 @@
 <template>
-  <canvas ref="canvas" />
+  <canvas ref="canvas" width="640" height="100" />
 </template>
 
 <script setup lang="ts">
@@ -8,18 +8,16 @@ const props = defineProps<{
   dataUpdateTrigger: number;
 }>();
 
-const width = 320;
-const height = 48;
-const audioCanvas = useTemplateRef('canvas');
+let width = 0;
+let height = 0;
+const audioCanvas = useTemplateRef("canvas");
 const canvasCtx = ref<CanvasRenderingContext2D | null>(null);
 
 onMounted(() => {
   if (audioCanvas.value) {
-    canvasCtx.value = audioCanvas.value.getContext('2d');
-    if (canvasCtx.value) {
-      audioCanvas.value.width = width;
-      audioCanvas.value.height = height;
-    }
+    canvasCtx.value = audioCanvas.value.getContext("2d");
+    width = audioCanvas.value.width;
+    height = audioCanvas.value.height;
   }
 });
 
@@ -34,7 +32,7 @@ const drawCanvas = () => {
 
   ctx.clearRect(0, 0, width, height);
   ctx.lineWidth = 2;
-  ctx.strokeStyle = 'rgb(221, 0, 0)';
+  ctx.strokeStyle = "rgb(221, 72, 49)";
   ctx.beginPath();
 
   let x = 0;
@@ -60,6 +58,6 @@ watch(
   () => {
     drawCanvas();
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
