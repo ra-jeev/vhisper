@@ -87,14 +87,14 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
-import { signUpSchema, type SignUpSchemaType } from '~~/types';
-import type { Form, FormSubmitEvent } from '#ui/types';
+import { FetchError } from "ofetch";
+import { signUpSchema } from "#shared/schemas/auth.schema";
+import type { Form, FormSubmitEvent } from "#ui/types";
 
 const showPassword = ref(false);
 const loading = ref(false);
-const formError = ref('');
-const form = useTemplateRef<Form<SignUpSchemaType>>('form');
+const formError = ref("");
+const form = useTemplateRef<Form<SignUpSchemaType>>("form");
 
 const state = reactive({
   name: undefined,
@@ -106,11 +106,11 @@ const { fetch: refreshSession } = useUserSession();
 const onSignUp = async (event: FormSubmitEvent<SignUpSchemaType>) => {
   loading.value = true;
   form.value?.clear();
-  formError.value = '';
+  formError.value = "";
 
   try {
-    await $fetch('/api/auth/signup', {
-      method: 'POST',
+    await $fetch("/api/auth/signup", {
+      method: "POST",
       body: {
         name: event.data.name,
         username: event.data.username,
@@ -120,7 +120,7 @@ const onSignUp = async (event: FormSubmitEvent<SignUpSchemaType>) => {
 
     await refreshSession();
   } catch (error) {
-    console.error('signup error', error);
+    console.error("signup error", error);
     if (error instanceof FetchError) {
       if (error.data?.statusCode === 400 && error.data.data?.issues) {
         form.value?.setErrors(
@@ -128,16 +128,16 @@ const onSignUp = async (event: FormSubmitEvent<SignUpSchemaType>) => {
             (err: { message: string; path: string[] }) => ({
               message: err.message,
               path: err.path[0],
-            })
-          )
+            }),
+          ),
         );
       } else {
         formError.value =
           error.data?.statusMessage ??
-          'Failed to sign up. Please try again later.';
+          "Failed to sign up. Please try again later.";
       }
     } else {
-      formError.value = 'Failed to sign up. Please try again later.';
+      formError.value = "Failed to sign up. Please try again later.";
     }
   } finally {
     loading.value = false;
@@ -145,6 +145,6 @@ const onSignUp = async (event: FormSubmitEvent<SignUpSchemaType>) => {
 };
 
 definePageMeta({
-  layout: 'auth',
+  layout: "auth",
 });
 </script>

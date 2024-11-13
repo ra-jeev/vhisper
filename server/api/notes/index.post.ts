@@ -1,16 +1,13 @@
-import { notesSchema } from '~~/types';
+import { noteSchema } from "#shared/schemas/note.schema";
 
 export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event);
-  const { title, content, audioUrls } = await readValidatedBody(
-    event,
-    notesSchema.parse
-  );
+  const { text, audioUrls } = await readValidatedBody(event, noteSchema.parse);
 
   await useDrizzle().insert(tables.notes).values({
     userId: user.id,
-    title,
-    content,
+    text,
+
     audioUrls,
   });
 

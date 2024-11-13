@@ -79,14 +79,14 @@
 </template>
 
 <script setup lang="ts">
-import { FetchError } from 'ofetch';
-import { signInSchema, type SignInSchemaType } from '~~/types';
-import type { Form, FormSubmitEvent } from '#ui/types';
+import { FetchError } from "ofetch";
+import { signInSchema } from "#shared/schemas/auth.schema";
+import type { Form, FormSubmitEvent } from "#ui/types";
 
 const showPassword = ref(false);
 const loading = ref(false);
-const formError = ref('');
-const form = useTemplateRef<Form<SignInSchemaType>>('form');
+const formError = ref("");
+const form = useTemplateRef<Form<SignInSchemaType>>("form");
 
 const state = reactive({
   username: undefined,
@@ -97,11 +97,11 @@ const { fetch: refreshSession } = useUserSession();
 const onSignIn = async (event: FormSubmitEvent<SignInSchemaType>) => {
   loading.value = true;
   form.value?.clear();
-  formError.value = '';
+  formError.value = "";
 
   try {
-    await $fetch('/api/auth/sign-in', {
-      method: 'POST',
+    await $fetch("/api/auth/sign-in", {
+      method: "POST",
       body: {
         username: event.data.username,
         password: event.data.password,
@@ -110,13 +110,13 @@ const onSignIn = async (event: FormSubmitEvent<SignInSchemaType>) => {
 
     await refreshSession();
   } catch (error) {
-    console.error('sign-in error', error);
+    console.error("sign-in error", error);
     if (error instanceof FetchError) {
       formError.value =
         error.data?.statusMessage ??
-        'Failed to sign in. Please try again later.';
+        "Failed to sign in. Please try again later.";
     } else {
-      formError.value = 'Failed to sign in. Please try again later.';
+      formError.value = "Failed to sign in. Please try again later.";
     }
   } finally {
     loading.value = false;
@@ -124,6 +124,6 @@ const onSignIn = async (event: FormSubmitEvent<SignInSchemaType>) => {
 };
 
 definePageMeta({
-  layout: 'auth',
+  layout: "auth",
 });
 </script>

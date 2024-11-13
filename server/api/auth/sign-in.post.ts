@@ -1,14 +1,14 @@
-import { signInSchema } from '~~/types';
+import { signInSchema } from "#shared/schemas/auth.schema";
 
 const invalidCredentialsError = createError({
   statusCode: 401,
-  statusMessage: 'Invalid username or password.',
+  statusMessage: "Invalid username or password.",
 });
 
 export default defineEventHandler(async (event) => {
   const { username, password } = await readValidatedBody(
     event,
-    signInSchema.parse
+    signInSchema.parse,
   );
 
   const dbUser = await useDrizzle()
@@ -31,6 +31,6 @@ export default defineEventHandler(async (event) => {
 
   return {
     status: 200,
-    message: 'Sign in successful',
+    message: "Sign in successful",
   };
 });

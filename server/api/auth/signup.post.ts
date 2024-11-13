@@ -1,9 +1,9 @@
-import { signUpSchema } from '~~/types';
+import { signUpSchema } from "#shared/schemas/auth.schema";
 
 export default defineEventHandler(async (event) => {
   const { name, username, password } = await readValidatedBody(
     event,
-    signUpSchema.parse
+    signUpSchema.parse,
   );
 
   const hashedPassword = await hashPassword(password);
@@ -24,20 +24,20 @@ export default defineEventHandler(async (event) => {
     await setUserSession(event, { user: { id: res.id, username, name } });
     return setResponseStatus(event, 201);
   } catch (error) {
-    console.error('Error signing up:', error);
+    console.error("Error signing up:", error);
 
     if (
       error instanceof Error &&
-      error.message.includes('D1_ERROR: UNIQUE constraint failed')
+      error.message.includes("D1_ERROR: UNIQUE constraint failed")
     ) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Username unavailable. Please try a different one.',
+        statusMessage: "Username unavailable. Please try a different one.",
         data: {
           issues: [
             {
-              message: 'Username unavailable. Please try a different one.',
-              path: ['username'],
+              message: "Username unavailable. Please try a different one.",
+              path: ["username"],
             },
           ],
         },
@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       statusCode: 422,
       statusMessage:
-        'Signup failed. Please check your information and try again.',
+        "Signup failed. Please check your information and try again.",
     });
   }
 });
