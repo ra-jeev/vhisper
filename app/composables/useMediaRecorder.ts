@@ -60,7 +60,7 @@ export function useMediaRecorder() {
 
       updateAudioData();
     } catch (err) {
-      console.error('Error accessing microphone:', err);
+      console.error("Error accessing microphone:", err);
       throw err;
     }
   };
@@ -69,8 +69,13 @@ export function useMediaRecorder() {
     return await new Promise<Blob>((resolve) => {
       if (mediaRecorder && state.value.isRecording) {
         mediaRecorder.onstop = () => {
-          const blob = new Blob(audioChunks, { type: 'audio/webm' });
+          const blob = new Blob(audioChunks, { type: "audio/webm" });
           audioChunks = undefined;
+
+          state.value.recordingDuration = 0;
+          state.value.updateTrigger = 0;
+          state.value.audioData = null;
+
           resolve(blob);
         };
 
@@ -85,10 +90,6 @@ export function useMediaRecorder() {
 
         audioContext?.close();
         audioContext = null;
-
-        state.value.recordingDuration = 0;
-        state.value.updateTrigger = 0;
-        state.value.audioData = null;
       }
     });
   };
