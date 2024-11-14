@@ -1,19 +1,62 @@
 <template>
   <div class="flex h-screen">
-    <!-- Sidebar -->
-    <nav class="w-64 bg-gray-50 dark:bg-gray-900">
-      <UVerticalNavigation
-        :links="[
-          { label: 'Notes', icon: 'i-heroicons-document-text', to: '/notes' },
-          { label: 'Settings', icon: 'i-heroicons-cog', to: '/settings' },
-          // other menu items
-        ]"
+    <USlideover
+      v-model="isDrawerOpen"
+      class="md:hidden"
+      side="left"
+      :ui="{ width: 'max-w-xs' }"
+    >
+      <AppSidebar
+        :links="links"
+        class="flex"
+        @hide-drawer="isDrawerOpen = false"
       />
-    </nav>
+    </USlideover>
+
+    <!-- Sidebar -->
+    <AppSidebar :links="links" class="hidden md:flex md:w-64" />
 
     <!-- Main content -->
-    <main class="flex-1 overflow-auto">
-      <NuxtPage />
-    </main>
+    <div class="flex-1 h-full min-w-0 bg-gray-50 dark:bg-gray-950">
+      <AppHeader :title="title" @show-drawer="isDrawerOpen = true">
+        <template v-if="route.path === '/notes'" #actions>
+          <UButton icon="i-heroicons-plus" @click="navigateTo('/new')">
+            New Note
+          </UButton>
+        </template>
+      </AppHeader>
+
+      <main class="p-4 sm:p-6 h-[calc(100vh-3.5rem)] overflow-y-auto">
+        <NuxtPage />
+      </main>
+    </div>
   </div>
 </template>
+
+<script setup lang="ts">
+const isDrawerOpen = ref(false);
+const links = [
+  {
+    label: "Notes",
+    icon: "i-heroicons-document-text",
+    to: "/notes",
+    click: () => (isDrawerOpen.value = false),
+  },
+  {
+    label: "Settings",
+    icon: "i-heroicons-cog",
+    to: "/settings",
+    click: () => (isDrawerOpen.value = false),
+  },
+];
+
+const route = useRoute();
+const title = computed(() => {
+  const activeLink = links.find((l) => l.to === route.path);
+  if (activeLink) {
+    return activeLink.label;
+  }
+
+  return "";
+});
+</script>
