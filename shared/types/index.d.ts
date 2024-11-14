@@ -5,3 +5,18 @@ import type { noteSchema } from "#shared/schemas/note.schema";
 export type SignInSchemaType = z.output<typeof signInSchema>;
 export type SignUpSchemaType = z.output<typeof signUpSchema>;
 export type NoteSchemaType = z.output<typeof noteSchema>;
+
+export type Recording = {
+  url: string;
+  blob: Blob;
+  id: string;
+};
+
+export type PostProcessing = {
+  enabled: boolean;
+  prompt: string;
+};
+
+export type Settings = {
+  postProcessing: PostProcessing;
+};
