@@ -46,15 +46,13 @@
     </div>
 
     <template #footer>
-      <div class="flex items-center justify-end gap-x-4">
-        <UButton
-          icon="i-heroicons-arrow-down-tray"
-          :disabled="!hasChanges"
-          @click="saveSettings"
-        >
-          Save Changes
-        </UButton>
-      </div>
+      <UButton
+        icon="i-heroicons-arrow-down-tray"
+        :disabled="!hasChanges"
+        @click="saveSettings"
+      >
+        Save Changes
+      </UButton>
     </template>
   </UCard>
 </template>
