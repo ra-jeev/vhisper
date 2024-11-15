@@ -4,12 +4,19 @@ export default defineEventHandler(async (event) => {
   const { user } = await requireUserSession(event);
   const { text, audioUrls } = await readValidatedBody(event, noteSchema.parse);
 
-  await useDrizzle().insert(tables.notes).values({
-    userId: user.id,
-    text,
+  try {
+    await useDrizzle().insert(tables.notes).values({
+      userId: user.id,
+      text,
+      audioUrls,
+    });
 
-    audioUrls,
-  });
-
-  return setResponseStatus(event, 201);
+    return setResponseStatus(event, 201);
+  } catch (err) {
+    console.error("Error creating note:", err);
+    throw createError({
+      statusCode: 500,
+      message: "Failed to create note. Please try again.",
+    });
+  }
 });
