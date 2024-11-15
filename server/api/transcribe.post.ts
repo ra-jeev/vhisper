@@ -10,6 +10,8 @@ export default defineEventHandler(async (event) => {
     });
   }
 
+  ensureBlob(blob, { maxSize: "2MB", types: ["audio/webm"] });
+
   try {
     const response = await hubAI().run("@cf/openai/whisper", {
       audio: [...new Uint8Array(await blob.arrayBuffer())],
