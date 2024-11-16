@@ -88,7 +88,7 @@ const saveSettings = () => {
   updateSettings(localSettings.value);
   useToast().add({
     title: "Success",
-    description: "Settings udpdated successfully.",
+    description: "Settings updated successfully.",
     color: "green",
   });
 };

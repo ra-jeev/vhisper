@@ -1,6 +1,6 @@
 import type { z } from "zod";
 import type { signInSchema, signUpSchema } from "#shared/schemas/auth.schema";
-import type { noteSchema } from "#shared/schemas/note.schema";
+import type { noteSchema, noteSelectSchema } from "#shared/schemas/note.schema";
 
 export type SignInSchemaType = z.output<typeof signInSchema>;
 export type SignUpSchemaType = z.output<typeof signUpSchema>;
@@ -20,3 +20,5 @@ export type PostProcessing = {
 export type Settings = {
   postProcessing: PostProcessing;
 };
+
+export type Note = z.output<typeof noteSelectSchema>;
