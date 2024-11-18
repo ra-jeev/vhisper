@@ -17,34 +17,15 @@
 
     <div class="flex-1" />
 
-    <div class="text-center space-y-4 pb-8">
-      <p>Made with ❤️ by Rajeev</p>
-      <div class="flex items-center justify-center gap-x-4">
-        <UButton
-          to="https://x.com/ra_jeeves"
-          icon="i-simple-icons-x"
-          aria-label="twitter/x"
-          color="gray"
-          target="_blank"
-          variant="ghost"
-        />
-        <UButton
-          to="https://bsky.app/profile/rajeev.dev"
-          icon="i-simple-icons-bluesky"
-          aria-label="BlueSky App"
-          color="gray"
-          target="_blank"
-          variant="ghost"
-        />
-        <UButton
-          icon="i-simple-icons-github"
-          color="gray"
-          variant="ghost"
-          to="https://github.com/ra-jeev/vhisper"
-          target="_blank"
-        />
-        <AppColorMode />
-      </div>
+    <div class="px-4 pb-8">
+      <UButton
+        block
+        color="gray"
+        icon="i-heroicons-arrow-right-start-on-rectangle"
+        @click="clear"
+      >
+        Sign out
+      </UButton>
     </div>
   </div>
 </template>
@@ -55,4 +36,6 @@ defineProps<{
 }>();
 
 defineEmits(["hideDrawer"]);
+
+const { clear } = useUserSession();
 </script>

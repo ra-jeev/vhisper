@@ -28,8 +28,13 @@
 
           <h1 class="text-xl md:text-2xl font-semibold">{{ title }}</h1>
         </template>
-        <template v-if="route.path === '/notes'" #actions>
-          <UButton icon="i-heroicons-plus" @click="navigateTo('/notes/new')">
+        <template #actions>
+          <AppColorMode />
+          <UButton
+            v-if="route.path === '/notes'"
+            icon="i-heroicons-plus"
+            @click="navigateTo('/notes/new')"
+          >
             New Note
           </UButton>
         </template>
@@ -67,5 +72,12 @@ const title = computed(() => {
   }
 
   return "";
+});
+
+const { loggedIn } = useUserSession();
+watchEffect(() => {
+  if (!loggedIn.value) {
+    navigateTo("/");
+  }
 });
 </script>

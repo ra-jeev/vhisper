@@ -15,4 +15,8 @@
 
 <script setup lang="ts">
 const { data: notes } = await useFetch("/api/notes");
+
+definePageMeta({
+  middleware: "auth",
+});
 </script>

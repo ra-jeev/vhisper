@@ -40,4 +40,8 @@ const closeModal = () => {
     navigateTo("/notes");
   }
 };
+
+definePageMeta({
+  middleware: "auth",
+});
 </script>

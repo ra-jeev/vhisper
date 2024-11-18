@@ -92,4 +92,8 @@ const saveSettings = () => {
     color: "green",
   });
 };
+
+definePageMeta({
+  middleware: "auth",
+});
 </script>
