@@ -37,7 +37,7 @@ const closeModal = () => {
   if (window.history.length > 2) {
     router.back();
   } else {
-    navigateTo("/note");
+    navigateTo("/notes");
   }
 };
 </script>

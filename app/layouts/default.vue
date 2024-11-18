@@ -13,14 +13,23 @@
       />
     </USlideover>
 
-    <!-- Sidebar -->
     <AppSidebar :links="links" class="hidden md:flex md:w-64" />
 
-    <!-- Main content -->
     <div class="flex-1 h-full min-w-0 bg-gray-50 dark:bg-gray-950">
-      <AppHeader :title="title" @show-drawer="isDrawerOpen = true">
+      <AppHeader>
+        <template #title>
+          <UButton
+            icon="i-heroicons-bars-3-16-solid"
+            color="gray"
+            variant="ghost"
+            class="md:hidden"
+            @click="isDrawerOpen = true"
+          />
+
+          <h1 class="text-xl md:text-2xl font-semibold">{{ title }}</h1>
+        </template>
         <template v-if="route.path === '/notes'" #actions>
-          <UButton icon="i-heroicons-plus" @click="navigateTo('/new')">
+          <UButton icon="i-heroicons-plus" @click="navigateTo('/notes/new')">
             New Note
           </UButton>
         </template>
