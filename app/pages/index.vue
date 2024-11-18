@@ -1,45 +1,75 @@
-<script setup lang="ts">
-const runtimeConfig = useRuntimeConfig()
-const colors = ['#f87171', '#fb923c', '#fbbf24', '#facc15', '#a3e635', '#4ade80', '#34d399', '#2dd4bf', '#22d3ee', '#38bdf8', '#60a5fa', '#818cf8', '#a78bfa', '#c084fc', '#e879f9', '#f472b6', '#fb7185']
-const color = useState('color', () => colors[Math.floor(Math.random() * colors.length)])
-</script>
-
 <template>
-  <div class="centered">
-    <h1 :style="{ color }">
-      {{ runtimeConfig.public.helloText }}
-    </h1>
-    <NuxtLink to="/" external>
-      refresh
-    </NuxtLink>
+  <div>
+    <div class="bg-gradient-to-b from-sky-500/10">
+      <div
+        class="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-24 md:py-32"
+      >
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">
+          Voice Notes with <br />
+          <span class="text-primary">AI Superpowers </span>
+        </h1>
+        <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-16">
+          Record, transcribe, and enhance your notes with AI assistance
+        </p>
+        <AuthState v-slot="{ loggedIn }">
+          <UButton
+            size="lg"
+            :trailing-icon="
+              loggedIn ? 'i-heroicons-arrow-right-16-solid' : 'i-heroicons-plus'
+            "
+            :to="loggedIn ? '/notes' : '/sign-up'"
+          >
+            {{ loggedIn ? "View Your Notes" : "Create Your First Note" }}
+          </UButton>
+        </AuthState>
+      </div>
+    </div>
+
+    <UContainer>
+      <section id="features" class="py-16">
+        <h2 class="text-2xl md:text-4xl font-bold mb-12 text-center">
+          Features
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <UCard v-for="(feature, index) in features" :key="`feature-${index}`">
+            <div class="flex items-center gap-4">
+              <UIcon :name="feature.icon" class="text-primary w-8 h-8" />
+              <h3 class="text-xl font-semibold">{{ feature.title }}</h3>
+            </div>
+
+            <p class="text-gray-500 dark:text-gray-400 mt-6">
+              {{ feature.description }}
+            </p>
+          </UCard>
+        </div>
+      </section>
+    </UContainer>
   </div>
 </template>
 
-<style scoped>
-.centered {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-h1 {
-  font-size: 32px;
-}
-@media (min-width: 768px) {
-  h1 {
-    font-size: 64px;
-  }
-}
-a {
-  color: #888;
-  text-decoration: none;
-  font-size: 18px;
-}
-a:hover {
-  text-decoration: underline;
-}
-</style>
+<script setup lang="ts">
+definePageMeta({
+  layout: "home",
+});
+
+const features = [
+  {
+    icon: "i-heroicons-microphone",
+    title: "Voice Recording",
+    description:
+      "Record multiple voice clips within a single note. Perfect for lectures, meetings, or quick thoughts.",
+  },
+  {
+    icon: "i-heroicons-document-text",
+    title: "AI Transcription",
+    description:
+      "Automatic speech-to-text conversion with high accuracy. Edit and refine transcriptions as needed.",
+  },
+  {
+    icon: "i-heroicons-sparkles",
+    title: "AI Enhancement",
+    description:
+      "Optional post-processing to improve transcription clarity, fix grammar, and enhance your notes.",
+  },
+];
+</script>
