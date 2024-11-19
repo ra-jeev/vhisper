@@ -1,4 +1,4 @@
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { createInsertSchema, createSelectSchema, create } from "drizzle-zod";
 import { z } from "zod";
 import { notes } from "~~/server/database/schema";
 
@@ -15,4 +15,8 @@ export const noteSchema = createInsertSchema(notes, {
 
 export const noteSelectSchema = createSelectSchema(notes, {
   audioUrls: z.string().array().optional(),
+});
+
+export const notePatchSchema = noteSchema.extend({
+  text: noteSchema.shape.text.optional(),
 });
