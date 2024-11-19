@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
       return hubBlob().serve(event, pathname);
     }
   } catch (error) {
-    console.log("failed to get the metadata", error);
+    console.error("failed to get the metadata", error);
   }
 
   throw createError({

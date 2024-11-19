@@ -1,7 +1,14 @@
 <template>
   <div :class="{ 'flex h-full': !notes?.length }">
+    <div ref="dummy-el" />
     <div v-if="notes?.length" class="space-y-4 sm:space-y-6">
-      <NoteCard v-for="note in notes" :key="note.id" :note="note" />
+      <NoteCard
+        v-for="note in notes"
+        :key="note.id"
+        :note="note"
+        @note-deleted="refresh"
+        @note-updated="onNoteUpdated"
+      />
     </div>
     <div
       v-else
@@ -14,9 +21,20 @@
 </template>
 
 <script setup lang="ts">
-const { data: notes } = await useFetch("/api/notes");
+const { data: notes, refresh } = await useFetch("/api/notes");
 
 definePageMeta({
   middleware: "auth",
 });
+
+const dummyEl = useTemplateRef<HTMLDivElement>("dummy-el");
+const onNoteUpdated = async () => {
+  await refresh();
+
+  nextTick(() =>
+    dummyEl.value?.scrollIntoView({
+      behavior: "smooth",
+    }),
+  );
+};
 </script>
