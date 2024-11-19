@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
       .select()
       .from(tables.notes)
       .where(eq(tables.notes.userId, user.id))
-      .orderBy(desc(tables.notes.createdAt));
+      .orderBy(desc(tables.notes.updatedAt));
 
     return notes;
   } catch (err) {

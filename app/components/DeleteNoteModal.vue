@@ -63,7 +63,7 @@ async function handleDelete() {
 
     emit("deleted");
     showDeleteConfirm.value = false;
-  } catch (error: any) {
+  } catch (error) {
     console.error("Failed to delete note:", error);
     useToast().add({
       title: "Error",
