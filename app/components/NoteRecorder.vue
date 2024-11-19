@@ -59,6 +59,7 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps<{ audioUrls?: string[] | null }>();
 const emit = defineEmits<{ transcription: [text: string] }>();
 
 const { state, startRecording, stopRecording } = useMediaRecorder();
@@ -83,7 +84,14 @@ const handleRecordingStart = async () => {
   }
 };
 
-const recordings = ref<Recording[]>([]);
+const recordings = ref<Recording[]>(
+  props.audioUrls
+    ? props.audioUrls.map((url) => {
+        return { url, id: url };
+      })
+    : [],
+);
+
 const deleteRecording = (recording: Recording) => {
   recordings.value = recordings.value.filter((r) => r.id !== recording.id);
 };
@@ -151,10 +159,22 @@ const transcribeAudio = async (blob: Blob) => {
 const uploadRecordings = async () => {
   if (!recordings.value.length) return;
 
+  let recordingsToUpload = 0;
+  const finalPathnames: string[] = [];
+
   const formData = new FormData();
   recordings.value.forEach((recording) => {
-    formData.append("files", recording.blob, recording.id + ".webm");
+    if (recording.blob) {
+      formData.append("files", recording.blob, recording.id + ".webm");
+      recordingsToUpload++;
+    } else {
+      finalPathnames.push(recording.url);
+    }
   });
+
+  if (!recordingsToUpload) {
+    return finalPathnames;
+  }
 
   try {
     const result = await $fetch("/api/upload", {
@@ -162,10 +182,12 @@ const uploadRecordings = async () => {
       body: formData,
     });
 
-    return result.map((obj) => obj.pathname);
+    finalPathnames.push(...result.map((obj) => obj.pathname));
   } catch (error) {
-    console.log("Failed to upload audio recordings", error);
+    console.error("Failed to upload audio recordings", error);
   }
+
+  return finalPathnames;
 };
 
 const resetRecordings = () => {

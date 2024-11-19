@@ -8,7 +8,7 @@ export type NoteSchemaType = z.output<typeof noteSchema>;
 
 export type Recording = {
   url: string;
-  blob: Blob;
+  blob?: Blob;
   id: string;
 };
 
