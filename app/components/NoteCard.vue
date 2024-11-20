@@ -57,8 +57,8 @@
       <span>
         {{
           note.updatedAt && note.updatedAt !== note.createdAt
-            ? `Updated ${updatedAt}`
-            : `Created ${createdAt}`
+            ? `Updated ${updated}`
+            : `Created ${created}`
         }}
       </span>
     </p>
@@ -84,8 +84,12 @@ import { useTimeAgo } from "@vueuse/core";
 defineEmits(["note-deleted", "note-updated"]);
 const props = defineProps<{ note: Note }>();
 
-const createdAt = useTimeAgo(props.note.createdAt + "Z");
-const updatedAt = useTimeAgo(props.note.updatedAt + "Z");
+const createdAt = computed(() => props.note.createdAt + "Z");
+const updatedAt = computed(() => props.note.updatedAt + "Z");
+
+const created = useTimeAgo(createdAt);
+const updated = useTimeAgo(updatedAt);
+
 const showFullText = ref(false);
 const confirmDeletion = ref(false);
 const editNote = ref(false);
