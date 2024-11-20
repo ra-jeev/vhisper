@@ -84,19 +84,11 @@ const saveNote = async () => {
 
   loading.value = true;
 
-  const startTime = Date.now();
   const audioUrls = await noteRecorder.value?.uploadRecordings();
   const noteData = {
     text: note.value.trim(),
     audioUrls,
   };
-
-  console.log(
-    "sending note to server: ",
-    noteData,
-    "uploadTime:",
-    Date.now() - startTime,
-  );
 
   try {
     await $fetch("/api/notes", {
