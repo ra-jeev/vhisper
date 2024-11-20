@@ -87,7 +87,7 @@ const saveNote = async () => {
   const audioUrls = await noteRecorder.value?.uploadRecordings();
   const noteData = {
     text: note.value.trim(),
-    audioUrls,
+    audioUrls: audioUrls ? [...audioUrls] : null,
   };
 
   try {
