@@ -182,11 +182,19 @@ const uploadRecordings = async () => {
       body: formData,
     });
 
+    console.log(
+      "result from upload",
+      result,
+      "initial pathnames: ",
+      JSON.stringify(finalPathnames),
+    );
+
     finalPathnames.push(...result.map((obj) => obj.pathname));
   } catch (error) {
     console.error("Failed to upload audio recordings", error);
   }
 
+  console.log("final pathnames returned from noteRecorder", finalPathnames);
   return finalPathnames;
 };
 

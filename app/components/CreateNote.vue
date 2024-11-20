@@ -90,6 +90,8 @@ const saveNote = async () => {
     audioUrls,
   };
 
+  console.log("sending note to server: ", noteData);
+
   try {
     await $fetch("/api/notes", {
       method: "POST",
