@@ -1,6 +1,10 @@
 <template>
   <UModal
     fullscreen
+    :close="{
+      disabled: isSaving || noteRecorder?.isBusy,
+    }"
+    :prevent-close="isSaving || noteRecorder?.isBusy"
     :title="isEditing ? 'Edit Note' : 'Create Note'"
     :ui="{
       body: 'flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-4 sm:gap-6 overflow-hidden',
