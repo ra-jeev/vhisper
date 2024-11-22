@@ -6,7 +6,7 @@ export default defineAppConfig({
     },
     card: {
       slots: {
-        header: "flex items-center justify-between gap-x-3",
+        header: "flex items-center justify-between gap-3 flex-wrap",
         footer: "flex items-center justify-end gap-x-3",
       },
     },
