@@ -77,10 +77,12 @@ const showFullText = ref(false);
 const shouldShowExpandBtn = ref(false);
 const noteText = useTemplateRef<HTMLParagraphElement>("text");
 const checkTextExpansion = () => {
-  if (noteText.value) {
-    shouldShowExpandBtn.value =
-      noteText.value.scrollHeight > noteText.value.clientHeight;
-  }
+  nextTick(() => {
+    if (noteText.value) {
+      shouldShowExpandBtn.value =
+        noteText.value.scrollHeight > noteText.value.clientHeight;
+    }
+  });
 };
 
 onMounted(checkTextExpansion);
