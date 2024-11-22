@@ -10,7 +10,7 @@
             :to="social.to"
             :icon="social.icon"
             :aria-label="social.label"
-            color="gray"
+            color="neutral"
             target="_blank"
             variant="ghost"
           />

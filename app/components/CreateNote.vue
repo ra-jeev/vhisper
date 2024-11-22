@@ -38,8 +38,8 @@
 
     <div class="flex items-center justify-end gap-x-4">
       <UButton
-        icon="i-heroicons-trash"
-        color="gray"
+        icon="i-lucide-trash-2"
+        color="neutral"
         size="md"
         variant="ghost"
         :disabled="loading"
@@ -48,7 +48,7 @@
         Reset Note
       </UButton>
       <UButton
-        icon="i-heroicons-cloud-arrow-up"
+        icon="i-lucide-cloud-upload"
         size="md"
         :disabled="!note.trim() && !noteRecorder?.isBusy"
         :loading="loading"
@@ -99,7 +99,7 @@ const saveNote = async () => {
     useToast().add({
       title: "Success",
       description: "Note saved successfully",
-      color: "green",
+      color: "success",
     });
 
     clearNote();
@@ -109,7 +109,7 @@ const saveNote = async () => {
     useToast().add({
       title: "Error",
       description: "Failed to save note",
-      color: "red",
+      color: "error",
     });
   } finally {
     loading.value = false;

@@ -1,28 +1,33 @@
+<!-- icon="i-lucide-circle-user-round" -->
+
 <template>
-  <UDropdown
+  <UDropdownMenu
     :items="items"
-    :ui="{ item: { disabled: 'cursor-text select-text' } }"
-    :popper="{ placement: 'bottom-start' }"
+    :content="{
+      align: 'end',
+      side: 'bottom',
+      sideOffset: 8,
+    }"
+    :ui="{
+      content: 'w-48',
+    }"
   >
-    <UAvatar :src="user?.avatarUrl" :alt="user?.name" />
+    <UButton
+      color="neutral"
+      variant="ghost"
+      :avatar="{ alt: user?.name, size: 'md' }"
+      class="p-0 cursor-pointer"
+    />
 
     <template #account="{ item }">
       <div class="text-left">
         <p>Signed in as</p>
-        <p class="truncate font-medium text-gray-900 dark:text-white">
+        <p class="truncate font-medium">
           {{ item.label }}
         </p>
       </div>
     </template>
-
-    <template #item="{ item }">
-      <UIcon
-        :name="item.icon"
-        class="flex-shrink-0 h-5 w-5 text-gray-400 dark:text-gray-500"
-      />
-      <span class="truncate">{{ item.label }}</span>
-    </template>
-  </UDropdown>
+  </UDropdownMenu>
 </template>
 
 <script setup lang="ts">
@@ -33,23 +38,26 @@ const items = [
       label: user.value?.username ?? "Unknown",
       slot: "account",
       disabled: true,
+      class: "data-disabled:cursor-text select-text",
     },
   ],
   [
     {
       label: "Notes",
-      icon: "i-heroicons-document-text",
-      click: () => navigateTo("/notes"),
+      icon: "i-lucide-file-text",
+      to: "/notes",
     },
     {
       label: "Settings",
-      icon: "i-heroicons-cog",
-      click: () => navigateTo("/settings"),
+      icon: "i-lucide-settings",
+      to: "/settings",
     },
+  ],
+  [
     {
       label: "Sign out",
-      icon: "i-heroicons-arrow-right-start-on-rectangle",
-      click: clear,
+      icon: "i-lucide-log-out",
+      onSelect: clear,
     },
   ],
 ];

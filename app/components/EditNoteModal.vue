@@ -13,9 +13,9 @@
       <template #header>
         <h2 class="text-xl md:text-2xl font-semibold leading-6">Edit Note</h2>
         <UButton
-          color="gray"
+          color="neutral"
           variant="ghost"
-          icon="i-heroicons-x-mark-20-solid"
+          icon="i-lucide-x"
           @click="isEditing = false"
         />
       </template>
@@ -56,8 +56,8 @@
 
       <template #footer>
         <UButton
-          icon="i-heroicons-x-mark"
-          color="gray"
+          icon="i-lucide-x"
+          color="neutral"
           size="md"
           variant="ghost"
           :disabled="isUpdating"
@@ -67,7 +67,7 @@
         </UButton>
 
         <UButton
-          icon="i-heroicons-cloud-arrow-up"
+          icon="i-lucide-cloud-upload"
           size="md"
           type="submit"
           :disabled="!editedText.trim() && !noteRecorder?.isBusy"

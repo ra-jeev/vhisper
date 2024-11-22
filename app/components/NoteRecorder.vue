@@ -1,32 +1,22 @@
 <template>
   <UCard
     :ui="{
-      body: {
-        base: 'max-h-36 md:max-h-none md:flex-grow overflow-y-auto',
-      },
+      body: 'max-h-36 md:max-h-none md:flex-1 overflow-y-auto',
     }"
   >
     <template #header>
-      <h3
-        class="text-base md:text-lg font-medium text-gray-600 dark:text-gray-300"
-      >
-        Recordings
-      </h3>
+      <h3 class="font-medium text-gray-600 dark:text-gray-300">Recordings</h3>
 
-      <UTooltip
+      <!-- <UTooltip
         :text="state.isRecording ? 'Stop Recording' : 'Start Recording'"
-      >
-        <UButton
-          :icon="
-            state.isRecording
-              ? 'i-heroicons-stop-circle'
-              : 'i-heroicons-microphone'
-          "
-          :color="state.isRecording ? 'red' : 'primary'"
-          :loading="isTranscribing"
-          @click="toggleRecording"
-        />
-      </UTooltip>
+      > -->
+      <UButton
+        :icon="state.isRecording ? 'i-lucide-circle-stop' : 'i-lucide-mic'"
+        :color="state.isRecording ? 'error' : 'primary'"
+        :loading="isTranscribing"
+        @click="toggleRecording"
+      />
+      <!-- </UTooltip> -->
     </template>
 
     <AudioVisualizer
@@ -40,10 +30,7 @@
       v-else-if="isTranscribing"
       class="flex items-center justify-center h-14 gap-x-3 p-2 bg-gray-50 dark:bg-gray-800 rounded-lg mb-2 text-gray-500 dark:text-gray-400"
     >
-      <UIcon
-        name="i-heroicons-arrow-path-20-solid"
-        class="w-6 h-6 animate-spin"
-      />
+      <UIcon name="i-lucide-refresh-cw" size="size-6" class="animate-spin" />
       Transcribing...
     </div>
 
@@ -51,9 +38,10 @@
 
     <div
       v-if="!recordings.length && !state.isRecording && !isTranscribing"
-      class="h-full flex items-center justify-center text-gray-500 dark:text-gray-400"
+      class="h-full flex flex-col items-center justify-center text-gray-500 dark:text-gray-400"
     >
-      No recordings...
+      <p>No recordings...!</p>
+      <p class="text-sm mt-1">Tap the mic icon to create one.</p>
     </div>
   </UCard>
 </template>
@@ -79,18 +67,20 @@ const handleRecordingStart = async () => {
     useToast().add({
       title: "Error",
       description: "Could not access microphone. Please check permissions.",
-      color: "red",
+      color: "error",
     });
   }
 };
 
-const recordings = ref<Recording[]>(
-  props.audioUrls
-    ? props.audioUrls.map((url) => {
+const audioUrlsToRecordings = (audioUrls?: string[] | null) => {
+  return audioUrls
+    ? audioUrls.map((url) => {
         return { url, id: url };
       })
-    : [],
-);
+    : [];
+};
+
+const recordings = ref<Recording[]>(audioUrlsToRecordings(props.audioUrls));
 
 const deleteRecording = (recording: Recording) => {
   recordings.value = recordings.value.filter((r) => r.id !== recording.id);
@@ -106,7 +96,7 @@ const handleRecordingStop = async () => {
     useToast().add({
       title: "Error",
       description: "Failed to record audio. Please try again.",
-      color: "red",
+      color: "error",
     });
   }
 
@@ -128,7 +118,7 @@ const handleRecordingStop = async () => {
       useToast().add({
         title: "Error",
         description: "Failed to transcribe audio. Please try again.",
-        color: "red",
+        color: "error",
       });
     }
   }
@@ -192,7 +182,7 @@ const uploadRecordings = async () => {
 };
 
 const resetRecordings = () => {
-  recordings.value = [];
+  recordings.value = audioUrlsToRecordings(props.audioUrls);
 };
 
 const isBusy = computed(() => state.value.isRecording || isTranscribing.value);

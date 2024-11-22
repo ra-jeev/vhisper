@@ -9,56 +9,45 @@
       class="space-y-4 my-6"
       @submit="onSignIn"
     >
-      <UFormGroup name="username" label="Username" required>
+      <UFormField name="username" label="Username" required>
         <UInput
           v-model.trim="state.username"
           placeholder="Enter you username"
-          icon="i-heroicons-at-symbol"
+          icon="i-lucide-at-sign"
         />
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup name="password" label="Password" required>
+      <UFormField name="password" label="Password" required>
         <UInput
           v-model.trim="state.password"
-          :type="showPassword ? 'text' : 'password'"
+          class="w-full"
+          icon="i-lucide-key-round"
           placeholder="Enter your password"
-          icon="i-heroicons-key"
-          :ui="{ icon: { trailing: { pointer: '' } } }"
+          :type="showPassword ? 'text' : 'password'"
+          :ui="{ trailing: 'pe-1' }"
         >
           <template #trailing>
             <UButton
-              :icon="
-                showPassword
-                  ? `i-heroicons-eye-slash-solid`
-                  : `i-heroicons-eye-solid`
-              "
-              :padded="false"
-              color="gray"
+              aria-controls="password"
+              color="neutral"
               variant="link"
+              :aria-label="showPassword ? 'Hide password' : 'Show password'"
+              :aria-pressed="showPassword"
+              :icon="showPassword ? `i-lucide-eye-off` : `i-lucide-eye`"
               @click="showPassword = !showPassword"
             />
           </template>
         </UInput>
-      </UFormGroup>
-
-      <UNotification
-        v-if="formError"
-        id="sign-in"
-        icon="i-heroicons-exclamation-triangle-solid"
-        title="Error"
-        color="red"
-        :description="formError"
-        :timeout="10000"
-        @close="formError = ''"
-      />
+      </UFormField>
 
       <UButton
         block
-        class="!mt-6"
+        class="mt-2"
+        trailing-icon="i-lucide-arrow-right"
+        type="submit"
         :loading="loading"
         :disabled="loading"
-        trailing-icon="i-heroicons-arrow-right-20-solid"
-        type="submit"
+        :ui="{ trailingIcon: 'ms-0' }"
       >
         Continue
       </UButton>
@@ -69,7 +58,7 @@
     >
       Don't have an account?
       <ULink
-        class="text-primary hover:text-primary-600 dark:hover:text-primary-500"
+        class="text-[var(--ui-primary)] hover:text-[var(--ui-primary)]/75"
         to="/sign-up"
       >
         Create one now
@@ -85,19 +74,18 @@ import type { Form, FormSubmitEvent } from "#ui/types";
 
 const showPassword = ref(false);
 const loading = ref(false);
-const formError = ref("");
 const form = useTemplateRef<Form<SignInSchemaType>>("form");
 
-const state = reactive({
+const state = reactive<Partial<SignInSchemaType>>({
   username: undefined,
   password: undefined,
 });
 
+const toast = useToast();
 const { fetch: refreshSession } = useUserSession();
 const onSignIn = async (event: FormSubmitEvent<SignInSchemaType>) => {
   loading.value = true;
   form.value?.clear();
-  formError.value = "";
 
   try {
     await $fetch("/api/auth/sign-in", {
@@ -108,16 +96,24 @@ const onSignIn = async (event: FormSubmitEvent<SignInSchemaType>) => {
       },
     });
 
+    toast.add({
+      title: "Success",
+      description: "Sign in successful.",
+      color: "success",
+    });
+
     await refreshSession();
   } catch (error) {
-    console.error("sign-in error", error);
-    if (error instanceof FetchError) {
-      formError.value =
-        error.data?.statusMessage ??
-        "Failed to sign in. Please try again later.";
-    } else {
-      formError.value = "Failed to sign in. Please try again later.";
+    let errorMsg = "Failed to sign in. Please try again later.";
+    if (error instanceof FetchError && error.data?.statusMessage) {
+      errorMsg = error.data.statusMessage;
     }
+
+    toast.add({
+      title: "Error",
+      description: errorMsg,
+      color: "error",
+    });
   } finally {
     loading.value = false;
   }

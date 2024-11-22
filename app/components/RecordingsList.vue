@@ -7,15 +7,15 @@
     >
       <audio :src="recording.url" controls class="w-full h-10" />
 
-      <UTooltip text="Remove recording">
-        <UButton
-          icon="i-heroicons-trash"
-          color="red"
-          variant="ghost"
-          size="sm"
-          @click="$emit('delete', recording)"
-        />
-      </UTooltip>
+      <!-- <UTooltip text="Remove recording"> -->
+      <UButton
+        icon="i-lucide-trash-2"
+        color="error"
+        variant="ghost"
+        size="sm"
+        @click="$emit('delete', recording)"
+      />
+      <!-- </UTooltip> -->
     </div>
   </div>
 </template>

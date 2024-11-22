@@ -1,13 +1,18 @@
 export default defineAppConfig({
   ui: {
-    primary: "lime",
-    gray: "slate",
+    colors: {
+      primary: "lime",
+      neutral: "slate",
+    },
     card: {
-      header: {
-        base: "flex flex-wrap items-center justify-between",
+      slots: {
+        header: "flex items-center justify-between gap-x-3",
+        footer: "flex items-center justify-end gap-x-3",
       },
-      footer: {
-        base: "flex items-center justify-end gap-x-4",
+    },
+    modal: {
+      slots: {
+        footer: "justify-end gap-x-3",
       },
     },
   },

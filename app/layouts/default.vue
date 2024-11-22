@@ -1,16 +1,14 @@
 <template>
   <div class="flex h-screen">
-    <USlideover
-      v-model="isDrawerOpen"
-      class="md:hidden"
-      side="left"
-      :ui="{ width: 'max-w-xs' }"
-    >
-      <AppSidebar
+    <USlideover v-model="isDrawerOpen" class="md:hidden" side="left">
+      <template #header>
+        <AppLogo />
+      </template>
+      <!-- <AppSidebar
         :links="links"
         class="flex"
         @hide-drawer="isDrawerOpen = false"
-      />
+      /> -->
     </USlideover>
 
     <AppSidebar :links="links" class="hidden md:flex md:w-64" />
@@ -19,8 +17,8 @@
       <AppHeader>
         <template #title>
           <UButton
-            icon="i-heroicons-bars-3-16-solid"
-            color="gray"
+            icon="i-lucide-menu"
+            color="neutral"
             variant="ghost"
             class="md:hidden"
             @click="isDrawerOpen = true"
@@ -32,7 +30,7 @@
           <AppColorMode />
           <UButton
             v-if="route.path === '/notes'"
-            icon="i-heroicons-plus"
+            icon="i-lucide-plus"
             @click="navigateTo('/notes/new')"
           >
             New Note
@@ -52,15 +50,15 @@ const isDrawerOpen = ref(false);
 const links = [
   {
     label: "Notes",
-    icon: "i-heroicons-document-text",
+    icon: "i-lucide-file-text",
     to: "/notes",
-    click: () => (isDrawerOpen.value = false),
+    onSelect: () => (isDrawerOpen.value = false),
   },
   {
     label: "Settings",
-    icon: "i-heroicons-cog",
+    icon: "i-lucide-settings",
     to: "/settings",
-    click: () => (isDrawerOpen.value = false),
+    onSelect: () => (isDrawerOpen.value = false),
   },
 ];
 

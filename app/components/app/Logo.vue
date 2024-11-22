@@ -1,9 +1,9 @@
 <template>
-  <ULink class="flex items-center gap-x-3" to="/">
+  <ULink raw class="flex items-center gap-x-3" to="/">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      class="text-primary"
+      class="text-[var(--ui-primary)]"
       :class="iconSize"
     >
       <path
@@ -26,8 +26,8 @@ withDefaults(
     textSize?: string;
   }>(),
   {
-    iconSize: 'w-8 h-8',
-    textSize: 'text-xl md:text-2xl',
-  }
+    iconSize: "w-8 h-8",
+    textSize: "text-xl md:text-2xl",
+  },
 );
 </script>

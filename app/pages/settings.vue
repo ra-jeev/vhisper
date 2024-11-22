@@ -11,8 +11,9 @@
         </p>
       </div>
       <UButton
-        icon="i-heroicons-arrow-path"
-        color="gray"
+        color="neutral"
+        icon="i-lucide-undo-2"
+        variant="outline"
         @click="resetSettings"
       >
         Reset to Default
@@ -20,34 +21,33 @@
     </template>
 
     <div class="space-y-6">
-      <UFormGroup
+      <UFormField
         label="Post process transcriptions"
         description="Enables automatic post-processing of transcriptions using the configured prompt."
-        :ui="{ container: 'mt-2' }"
       >
         <template #hint>
-          <UToggle v-model="localSettings.postProcessing.enabled" />
+          <USwitch v-model="localSettings.postProcessing.enabled" />
         </template>
-      </UFormGroup>
+      </UFormField>
 
-      <UFormGroup
+      <UFormField
         label="Post processing prompt"
         description="This prompt will be used to process your recording transcriptions."
         :ui="{ container: 'mt-2' }"
       >
         <UTextarea
           v-model="localSettings.postProcessing.prompt"
+          class="w-full"
+          placeholder="Enter your prompt here..."
           :disabled="!localSettings.postProcessing.enabled"
           :rows="5"
-          placeholder="Enter your prompt here..."
-          class="w-full"
         />
-      </UFormGroup>
+      </UFormField>
     </div>
 
     <template #footer>
       <UButton
-        icon="i-heroicons-arrow-down-tray"
+        icon="i-lucide-save"
         :disabled="!hasChanges"
         @click="saveSettings"
       >
@@ -89,7 +89,7 @@ const saveSettings = () => {
   useToast().add({
     title: "Success",
     description: "Settings updated successfully.",
-    color: "green",
+    color: "success",
   });
 };
 

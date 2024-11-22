@@ -6,7 +6,7 @@
       >
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-6">
           Voice Notes with <br />
-          <span class="text-primary">AI Superpowers </span>
+          <span class="text-[var(--ui-primary)]">AI Superpowers </span>
         </h1>
         <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mb-16">
           Record, transcribe, and enhance your notes with AI assistance
@@ -14,9 +14,7 @@
         <AuthState v-slot="{ loggedIn }">
           <UButton
             size="lg"
-            :trailing-icon="
-              loggedIn ? 'i-heroicons-arrow-right-16-solid' : 'i-heroicons-plus'
-            "
+            :trailing-icon="loggedIn ? 'i-lucide-arrow-right' : 'i-lucide-plus'"
             :to="loggedIn ? '/notes' : '/sign-up'"
           >
             {{ loggedIn ? "View Your Notes" : "Create Your First Note" }}
@@ -33,7 +31,10 @@
         <div class="grid md:grid-cols-3 gap-6">
           <UCard v-for="(feature, index) in features" :key="`feature-${index}`">
             <div class="flex items-center gap-4">
-              <UIcon :name="feature.icon" class="text-primary w-8 h-8" />
+              <UIcon
+                :name="feature.icon"
+                class="text-[var(--ui-primary)] size-8"
+              />
               <h3 class="text-xl font-semibold">{{ feature.title }}</h3>
             </div>
 
@@ -54,19 +55,19 @@ definePageMeta({
 
 const features = [
   {
-    icon: "i-heroicons-microphone",
+    icon: "i-lucide-mic",
     title: "Voice Recording",
     description:
       "Record multiple voice clips within a single note. Perfect for lectures, meetings, or quick thoughts.",
   },
   {
-    icon: "i-heroicons-document-text",
+    icon: "i-lucide-file-text",
     title: "AI Transcription",
     description:
       "Automatic speech-to-text conversion with high accuracy. Edit and refine transcriptions as needed.",
   },
   {
-    icon: "i-heroicons-sparkles",
+    icon: "i-lucide-sparkles",
     title: "AI Enhancement",
     description:
       "Optional post-processing to improve transcription clarity, fix grammar, and enhance your notes.",

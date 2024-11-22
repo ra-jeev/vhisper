@@ -24,9 +24,8 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "en",
       },
-      bodyAttrs: {
-        class: "bg-white dark:bg-gray-900",
-      },
     },
   },
+
+  css: ["~/assets/css/main.css"],
 });

@@ -5,23 +5,29 @@
     <div class="flex items-center justify-between px-4 h-14">
       <AppLogo />
       <UButton
-        icon="i-heroicons-x-mark-20-solid"
-        color="gray"
+        icon="i-lucide-x"
+        color="neutral"
         variant="ghost"
         class="md:hidden"
         @click="$emit('hideDrawer')"
       />
     </div>
 
-    <UVerticalNavigation class="p-4" :links="links" />
+    <UNavigationMenu
+      class="p-4"
+      color="neutral"
+      orientation="vertical"
+      :items="links"
+    />
 
     <div class="flex-1" />
 
     <div class="px-4 pb-8">
       <UButton
         block
-        color="gray"
-        icon="i-heroicons-arrow-right-start-on-rectangle"
+        color="neutral"
+        icon="i-lucide-log-out"
+        variant="outline"
         @click="clear"
       >
         Sign out
@@ -32,7 +38,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  links: { label: string; icon: string; to: string; click?: () => void }[];
+  links: { label: string; icon: string; to: string; onSelect?: () => void }[];
 }>();
 
 defineEmits(["hideDrawer"]);

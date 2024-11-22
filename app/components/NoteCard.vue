@@ -1,7 +1,7 @@
 <template>
   <UCard class="hover:shadow-lg transition-shadow">
-    <div class="flex justify-between items-start">
-      <div class="flex-grow">
+    <div class="flex justify-between items-start gap-x-4">
+      <div class="flex-1">
         <p
           ref="text"
           :class="['whitespace-pre-wrap', !showFullText && 'line-clamp-3']"
@@ -18,21 +18,16 @@
         </UButton>
       </div>
 
-      <div class="flex gap-x-2 ml-4">
-        <UButton
-          color="gray"
-          variant="ghost"
-          icon="i-heroicons-pencil-square"
-          size="xs"
-          @click="editNote = true"
+      <div class="flex gap-x-2">
+        <NoteEditorModal
+          is-editing
+          :note="note"
+          @updated="$emit('note-updated')"
         />
-
-        <UButton
-          color="red"
-          variant="ghost"
-          icon="i-heroicons-trash"
-          size="xs"
-          @click="confirmDeletion = true"
+        <DeleteNoteModal
+          :note-id="note.id"
+          :has-audio="note.audioUrls ? note.audioUrls.length > 0 : false"
+          @deleted="$emit('note-deleted')"
         />
       </div>
     </div>
@@ -53,7 +48,7 @@
     <p
       class="flex items-center text-sm text-gray-500 dark:text-gray-400 gap-x-2 mt-6"
     >
-      <UIcon name="i-heroicons-clock" class="w-4 h-4" />
+      <UIcon name="i-lucide-clock" size="size-4" />
       <span>
         {{
           note.updatedAt && note.updatedAt !== note.createdAt
@@ -62,19 +57,6 @@
         }}
       </span>
     </p>
-
-    <DeleteNoteModal
-      v-model="confirmDeletion"
-      :note-id="note.id"
-      :has-audio="note.audioUrls ? note.audioUrls.length > 0 : false"
-      @deleted="$emit('note-deleted')"
-    />
-
-    <EditNoteModal
-      v-model="editNote"
-      :note="note"
-      @updated="$emit('note-updated')"
-    />
   </UCard>
 </template>
 
@@ -91,13 +73,10 @@ const created = useTimeAgo(createdAt);
 const updated = useTimeAgo(updatedAt);
 
 const showFullText = ref(false);
-const confirmDeletion = ref(false);
-const editNote = ref(false);
 
 const shouldShowExpandBtn = ref(false);
 const noteText = useTemplateRef<HTMLParagraphElement>("text");
-const checkTextExpansion = async () => {
-  await nextTick();
+const checkTextExpansion = () => {
   if (noteText.value) {
     shouldShowExpandBtn.value =
       noteText.value.scrollHeight > noteText.value.clientHeight;
