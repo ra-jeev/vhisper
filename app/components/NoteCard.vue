@@ -19,15 +19,20 @@
       </div>
 
       <div class="flex gap-x-2">
-        <NoteEditorModal
-          is-editing
-          :note="note"
-          @updated="$emit('note-updated')"
+        <UButton
+          color="neutral"
+          variant="ghost"
+          icon="i-lucide-edit"
+          size="xs"
+          @click="$emit('edit')"
         />
-        <DeleteNoteModal
-          :note-id="note.id"
-          :has-audio="note.audioUrls ? note.audioUrls.length > 0 : false"
-          @deleted="$emit('note-deleted')"
+
+        <UButton
+          color="error"
+          variant="ghost"
+          icon="i-lucide-trash-2"
+          size="xs"
+          @click="$emit('delete')"
         />
       </div>
     </div>
@@ -63,7 +68,7 @@
 <script setup lang="ts">
 import { useTimeAgo } from "@vueuse/core";
 
-defineEmits(["note-deleted", "note-updated"]);
+defineEmits(["delete", "edit"]);
 const props = defineProps<{ note: Note }>();
 
 const createdAt = computed(() => props.note.createdAt + "Z");

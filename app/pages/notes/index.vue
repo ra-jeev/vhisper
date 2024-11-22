@@ -6,8 +6,8 @@
         v-for="note in notes"
         :key="note.id"
         :note="note"
-        @note-deleted="refresh"
-        @note-updated="onNoteUpdated"
+        @delete="deleteNote(note)"
+        @edit="editNote(note)"
       />
     </div>
     <div
@@ -21,6 +21,9 @@
 </template>
 
 <script setup lang="ts">
+import { LazyNoteEditorModal } from "#components";
+import { LazyNoteDeleteModal } from "#components";
+
 const { data: notes, refresh } = await useFetch("/api/notes");
 
 definePageMeta({
@@ -28,7 +31,7 @@ definePageMeta({
 });
 
 const dummyEl = useTemplateRef<HTMLDivElement>("dummy-el");
-const onNoteUpdated = async () => {
+const onNoteEdited = async () => {
   await refresh();
 
   nextTick(() =>
@@ -37,4 +40,27 @@ const onNoteUpdated = async () => {
     }),
   );
 };
+
+const modal = useModal();
+const editNote = async (note: Note) => {
+  modal.open(LazyNoteEditorModal, {
+    isEditing: true,
+    note,
+    onEdit: onNoteEdited,
+  });
+};
+
+const deleteNote = (note: Note) => {
+  modal.open(LazyNoteDeleteModal, {
+    noteId: note.id,
+    hasAudio: Boolean(note.audioUrls?.length),
+    onDelete: refresh,
+  });
+};
+
+watch(modal.isOpen, (newState) => {
+  if (!newState) {
+    modal.reset();
+  }
+});
 </script>

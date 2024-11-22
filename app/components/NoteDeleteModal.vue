@@ -1,14 +1,11 @@
 <template>
   <UModal
-    v-model:open="isOpen"
     title="Delete Note"
     :close="{
       disabled: isDeleting,
     }"
     :prevent-close="isDeleting"
   >
-    <UButton color="error" variant="ghost" icon="i-lucide-trash-2" size="xs" />
-
     <template #body>
       <p>
         Are you sure you want to delete this note? This action cannot be undone.
@@ -24,7 +21,7 @@
         color="neutral"
         variant="outline"
         :disabled="isDeleting"
-        @click="isOpen = false"
+        @click="modal.close()"
       >
         Cancel
       </UButton>
@@ -42,10 +39,13 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ noteId: string; hasAudio: boolean }>();
-const emit = defineEmits(["deleted"]);
-const isOpen = ref(false);
+const props = defineProps<{
+  noteId: string;
+  hasAudio: boolean;
+  onDelete?: () => void;
+}>();
 
+const modal = useModal();
 const isDeleting = ref(false);
 async function handleDelete() {
   try {
@@ -55,18 +55,20 @@ async function handleDelete() {
     });
 
     useToast().add({
-      title: "Success",
-      description: "Note deleted successfully",
+      title: "Note Deleted",
+      description: "The note was deleted successfully.",
       color: "success",
     });
 
-    emit("deleted");
-    isOpen.value = false;
+    modal.close();
+    if (props.onDelete) {
+      props.onDelete();
+    }
   } catch (error) {
     console.error("Failed to delete note:", error);
     useToast().add({
-      title: "Error",
-      description: "Failed to delete note",
+      title: "Delete Error",
+      description: "Failed to delete the note.",
       color: "error",
     });
   } finally {

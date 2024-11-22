@@ -1,20 +1,11 @@
 <template>
   <UModal
-    v-model:open="isOpen"
     fullscreen
     :title="isEditing ? 'Edit Note' : 'Create Note'"
     :ui="{
       body: 'flex-1 w-full max-w-7xl mx-auto flex flex-col md:flex-row gap-4 sm:gap-6 overflow-hidden',
     }"
   >
-    <UButton
-      v-if="isEditing"
-      color="neutral"
-      variant="ghost"
-      icon="i-lucide-edit"
-      size="xs"
-    />
-
     <template #body>
       <UCard class="flex-1 flex flex-col" :ui="{ body: 'flex-1' }">
         <template #header>
@@ -69,6 +60,7 @@ import { NoteRecorder } from "#components";
 const props = defineProps<{
   isEditing?: boolean;
   note?: Note;
+  onEdit?: () => void;
 }>();
 
 type NoteRecorderType = InstanceType<typeof NoteRecorder>;
@@ -84,9 +76,7 @@ const handleTranscription = (text: string) => {
   noteText.value += text ?? "";
 };
 
-const isOpen = ref(false);
 const modal = useModal();
-const emit = defineEmits(["created", "updated"]);
 const isSaving = ref(false);
 const saveNote = async () => {
   const text = noteText.value.trim();
@@ -112,17 +102,16 @@ const handleNoteCreate = async (text: string, audioUrls?: string[]) => {
     });
 
     useToast().add({
-      title: "Save success",
-      description: "Note saved successfully.",
+      title: "Note Saved",
+      description: "Your note was saved successfully.",
       color: "success",
     });
 
-    emit("created");
     modal.close();
   } catch (err) {
     console.error("Error saving note:", err);
     useToast().add({
-      title: "Save error",
+      title: "Save Failed",
       description: "Failed to save the note.",
       color: "error",
     });
@@ -163,24 +152,26 @@ const handleNoteUpdate = async (
       });
 
       useToast().add({
-        title: "Update success",
-        description: "Note updated successfully.",
+        title: "Note Updated",
+        description: "Note changes were saved successfully.",
         color: "success",
       });
 
-      isOpen.value = false;
-      emit("updated");
+      modal.close();
+      if (props.onEdit) {
+        props.onEdit();
+      }
     } else {
       useToast().add({
-        title: "No update found",
-        description: "No update detected in the note",
+        title: "No Updates Detected",
+        description: "It seems you haven't made any changes to the note.",
         color: "warning",
       });
     }
   } catch (error) {
     console.error("Failed to update note:", error);
     useToast().add({
-      title: "Update error",
+      title: "Update Failed",
       description: "Failed to update the note.",
       color: "error",
     });
