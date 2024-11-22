@@ -7,16 +7,25 @@
     <template #header>
       <h3 class="font-medium text-gray-600 dark:text-gray-300">Recordings</h3>
 
-      <!-- <UTooltip
+      <div class="flex items-center gap-x-2">
+        <template v-if="state.isRecording">
+          <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+          <span class="mr-2 text-sm">
+            {{ formatDuration(state.recordingDuration) }}
+          </span>
+        </template>
+
+        <!-- <UTooltip
         :text="state.isRecording ? 'Stop Recording' : 'Start Recording'"
       > -->
-      <UButton
-        :icon="state.isRecording ? 'i-lucide-circle-stop' : 'i-lucide-mic'"
-        :color="state.isRecording ? 'error' : 'primary'"
-        :loading="isTranscribing"
-        @click="toggleRecording"
-      />
-      <!-- </UTooltip> -->
+        <UButton
+          :icon="state.isRecording ? 'i-lucide-circle-stop' : 'i-lucide-mic'"
+          :color="state.isRecording ? 'error' : 'primary'"
+          :loading="isTranscribing"
+          @click="toggleRecording"
+        />
+        <!-- </UTooltip> -->
+      </div>
     </template>
 
     <AudioVisualizer
@@ -188,4 +197,10 @@ const resetRecordings = () => {
 const isBusy = computed(() => state.value.isRecording || isTranscribing.value);
 
 defineExpose({ uploadRecordings, resetRecordings, isBusy });
+
+const formatDuration = (seconds: number) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+};
 </script>

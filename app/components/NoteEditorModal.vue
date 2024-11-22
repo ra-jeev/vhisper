@@ -77,9 +77,8 @@ const resetNote = () => {
   noteText.value = props.note?.text ?? "";
   noteRecorder.value?.resetRecordings();
 };
-console.log("props note text: ", props.note?.text);
+
 const noteText = ref(props.note?.text ?? "");
-console.log("noteText value: ", noteText.value);
 const handleTranscription = (text: string) => {
   noteText.value += noteText.value ? "\n\n" : "";
   noteText.value += text ?? "";
