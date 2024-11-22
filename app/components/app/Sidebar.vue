@@ -9,7 +9,7 @@
         color="neutral"
         variant="ghost"
         class="md:hidden"
-        @click="$emit('hideDrawer')"
+        @click="$emit('hideSlideover')"
       />
     </div>
 
@@ -22,7 +22,7 @@
 
     <div class="flex-1" />
 
-    <div class="px-4 pb-8">
+    <div class="px-4 pb-5">
       <UButton
         block
         color="neutral"
@@ -41,7 +41,7 @@ defineProps<{
   links: { label: string; icon: string; to: string; onSelect?: () => void }[];
 }>();
 
-defineEmits(["hideDrawer"]);
+defineEmits(["hideSlideover"]);
 
 const { clear } = useUserSession();
 </script>

@@ -1,28 +1,30 @@
 <template>
   <div class="flex h-screen">
-    <USlideover v-model="isDrawerOpen" class="md:hidden" side="left">
-      <template #header>
-        <AppLogo />
-      </template>
-      <!-- <AppSidebar
-        :links="links"
-        class="flex"
-        @hide-drawer="isDrawerOpen = false"
-      /> -->
-    </USlideover>
-
     <AppSidebar :links="links" class="hidden md:flex md:w-64" />
 
     <div class="flex-1 h-full min-w-0 bg-gray-50 dark:bg-gray-950">
       <AppHeader>
         <template #title>
-          <UButton
-            icon="i-lucide-menu"
-            color="neutral"
-            variant="ghost"
-            class="md:hidden"
-            @click="isDrawerOpen = true"
-          />
+          <USlideover
+            v-model:open="isSlideoverOpen"
+            class="max-w-xs"
+            side="left"
+          >
+            <UButton
+              class="md:hidden"
+              color="neutral"
+              icon="i-lucide-menu"
+              variant="ghost"
+            />
+
+            <template #content>
+              <AppSidebar
+                :links="links"
+                class="flex"
+                @hide-slideover="isSlideoverOpen = false"
+              />
+            </template>
+          </USlideover>
 
           <h1 class="text-xl md:text-2xl font-semibold">{{ title }}</h1>
         </template>
@@ -46,19 +48,20 @@
 </template>
 
 <script setup lang="ts">
-const isDrawerOpen = ref(false);
+const isSlideoverOpen = ref(false);
+const hideSlideover = () => (isSlideoverOpen.value = false);
 const links = [
   {
     label: "Notes",
     icon: "i-lucide-file-text",
     to: "/notes",
-    onSelect: () => (isDrawerOpen.value = false),
+    onSelect: hideSlideover,
   },
   {
     label: "Settings",
     icon: "i-lucide-settings",
     to: "/settings",
-    onSelect: () => (isDrawerOpen.value = false),
+    onSelect: hideSlideover,
   },
 ];
 
