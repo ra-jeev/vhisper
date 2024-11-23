@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen">
+  <div class="flex h-dvh">
     <AppSidebar :links="links" class="hidden md:flex md:w-64" />
 
     <div class="flex-1 h-full min-w-0 bg-gray-50 dark:bg-gray-950">

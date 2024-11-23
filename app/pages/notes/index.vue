@@ -21,8 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { LazyNoteEditorModal } from "#components";
-import { LazyNoteDeleteModal } from "#components";
+import { LazyNoteEditorModal, LazyNoteDeleteModal } from "#components";
 
 const { data: notes, refresh } = await useFetch("/api/notes");
 

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-screen flex-col w-full shrink-0 border-r border-gray-200 dark:border-gray-800"
+    class="h-dvh flex-col w-full shrink-0 border-r border-gray-200 dark:border-gray-800"
   >
     <div class="flex items-center justify-between px-4 h-14">
       <AppLogo />

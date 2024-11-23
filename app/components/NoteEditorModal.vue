@@ -30,7 +30,7 @@
       <NoteRecorder
         ref="recorder"
         class="md:h-full md:flex md:flex-col md:w-96 shrink-0 order-first md:order-none"
-        :audioUrls="note?.audioUrls"
+        :audio-urls="note?.audioUrls"
         @transcription="handleTranscription"
       />
     </template>
