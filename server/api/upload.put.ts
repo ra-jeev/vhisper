@@ -6,12 +6,11 @@ export default defineEventHandler(async (event) => {
     multiple: true,
     ensure: {
       maxSize: "2MB",
-      types: ["audio/webm"],
+      types: ["audio"],
     },
     put: {
       addRandomSuffix: true,
       prefix: "recordings",
-      contentType: "audio/webm",
       customMetadata: {
         userId: user.id,
       },

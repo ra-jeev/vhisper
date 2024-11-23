@@ -164,7 +164,11 @@ const uploadRecordings = async () => {
   const formData = new FormData();
   recordings.value.forEach((recording) => {
     if (recording.blob) {
-      formData.append("files", recording.blob, recording.id + ".webm");
+      formData.append(
+        "files",
+        recording.blob,
+        `${recording.id}.${recording.blob.type.split("/")[1]}`,
+      );
       recordingsToUpload++;
     } else {
       finalPathnames.push(recording.url);

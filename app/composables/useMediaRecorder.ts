@@ -5,6 +5,20 @@ interface MediaRecorderState {
   updateTrigger: number;
 }
 
+const getSupportedMimeType = () => {
+  const types = [
+    "audio/mp4",
+    "audio/mp4;codecs=mp4a",
+    "audio/mpeg",
+    "audio/webm;codecs=opus",
+    "audio/webm",
+  ];
+
+  return (
+    types.find((type) => MediaRecorder.isTypeSupported(type)) || "audio/webm"
+  );
+};
+
 export function useMediaRecorder() {
   const state = ref<MediaRecorderState>({
     isRecording: false,
@@ -44,7 +58,11 @@ export function useMediaRecorder() {
       const source = audioContext.createMediaStreamSource(stream);
       source.connect(analyser);
 
-      mediaRecorder = new MediaRecorder(stream);
+      const options = {
+        mimeType: getSupportedMimeType(),
+      };
+
+      mediaRecorder = new MediaRecorder(stream, options);
       audioChunks = [];
 
       mediaRecorder.ondataavailable = (e: BlobEvent) => {
@@ -68,8 +86,9 @@ export function useMediaRecorder() {
   const stopRecording = async () => {
     return await new Promise<Blob>((resolve) => {
       if (mediaRecorder && state.value.isRecording) {
+        const mimeType = mediaRecorder.mimeType;
         mediaRecorder.onstop = () => {
-          const blob = new Blob(audioChunks, { type: "audio/webm" });
+          const blob = new Blob(audioChunks, { type: mimeType });
           audioChunks = undefined;
 
           state.value.recordingDuration = 0;
