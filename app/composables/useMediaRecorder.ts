@@ -60,6 +60,7 @@ export function useMediaRecorder() {
 
       const options = {
         mimeType: getSupportedMimeType(),
+        audioBitsPerSecond: 64000,
       };
 
       mediaRecorder = new MediaRecorder(stream, options);

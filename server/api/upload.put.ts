@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     formKey: "files",
     multiple: true,
     ensure: {
-      maxSize: "2MB",
+      maxSize: "8MB",
       types: ["audio"],
     },
     put: {

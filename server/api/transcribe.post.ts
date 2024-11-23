@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  ensureBlob(blob, { maxSize: "2MB", types: ["audio"] });
+  ensureBlob(blob, { maxSize: "8MB", types: ["audio"] });
 
   try {
     const response = await hubAI().run("@cf/openai/whisper", {
