@@ -26,7 +26,7 @@
             </template>
           </USlideover>
 
-          <h1 class="text-xl md:text-2xl font-semibold">{{ title }}</h1>
+          <h2 class="text-lg md:text-xl font-semibold">{{ title }}</h2>
         </template>
         <template #actions>
           <AppColorMode />
