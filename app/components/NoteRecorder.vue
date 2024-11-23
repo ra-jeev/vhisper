@@ -43,7 +43,7 @@
       Transcribing...
     </div>
 
-    <RecordingsList :recordings="recordings" @delete="deleteRecording" />
+    <RecordingsList :recordings="recordings" @delete="removeRecording" />
 
     <div
       v-if="!recordings.length && !state.isRecording && !isTranscribing"
@@ -81,34 +81,8 @@ const handleRecordingStart = async () => {
   }
 };
 
-const audioUrlsToRecordings = (audioUrls?: string[] | null) => {
-  return audioUrls
-    ? audioUrls.map((url) => {
-        return { url, id: url };
-      })
-    : [];
-};
-
-const recordings = ref<Recording[]>(audioUrlsToRecordings(props.audioUrls));
-
-const cleanupRecording = (recording: Recording) => {
-  if (recording.blob) {
-    URL.revokeObjectURL(recording.url);
-  }
-};
-
-const deleteRecording = (recording: Recording) => {
-  recordings.value = recordings.value.filter((r) => r.id !== recording.id);
-  cleanupRecording(recording);
-};
-
-const cleanupAllRecordings = () => {
-  recordings.value.forEach((recording) => {
-    cleanupRecording(recording);
-  });
-};
-
-onUnmounted(cleanupAllRecordings);
+const { recordings, addRecording, removeRecording, resetRecordings } =
+  useRecordings(props.audioUrls);
 
 const handleRecordingStop = async () => {
   let blob: Blob | undefined;
@@ -131,7 +105,7 @@ const handleRecordingStop = async () => {
       if (transcription) {
         emit("transcription", transcription);
 
-        recordings.value.unshift({
+        addRecording({
           url: URL.createObjectURL(blob),
           blob,
           id: `${Date.now()}`,
@@ -207,11 +181,6 @@ const uploadRecordings = async () => {
   }
 
   return finalPathnames;
-};
-
-const resetRecordings = () => {
-  cleanupAllRecordings();
-  recordings.value = audioUrlsToRecordings(props.audioUrls);
 };
 
 const isBusy = computed(() => state.value.isRecording || isTranscribing.value);
