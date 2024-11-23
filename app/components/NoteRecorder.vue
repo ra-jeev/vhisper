@@ -91,9 +91,24 @@ const audioUrlsToRecordings = (audioUrls?: string[] | null) => {
 
 const recordings = ref<Recording[]>(audioUrlsToRecordings(props.audioUrls));
 
+const cleanupRecording = (recording: Recording) => {
+  if (recording.blob) {
+    URL.revokeObjectURL(recording.url);
+  }
+};
+
 const deleteRecording = (recording: Recording) => {
   recordings.value = recordings.value.filter((r) => r.id !== recording.id);
+  cleanupRecording(recording);
 };
+
+const cleanupAllRecordings = () => {
+  recordings.value.forEach((recording) => {
+    cleanupRecording(recording);
+  });
+};
+
+onUnmounted(cleanupAllRecordings);
 
 const handleRecordingStop = async () => {
   let blob: Blob | undefined;
@@ -195,6 +210,7 @@ const uploadRecordings = async () => {
 };
 
 const resetRecordings = () => {
+  cleanupAllRecordings();
   recordings.value = audioUrlsToRecordings(props.audioUrls);
 };
 
