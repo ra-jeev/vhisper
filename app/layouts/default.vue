@@ -40,7 +40,7 @@
         </template>
       </AppHeader>
 
-      <main class="p-4 sm:p-6 h-[calc(100vh-3.5rem)] overflow-y-auto">
+      <main class="p-4 sm:p-6 h-[calc(100dvh-3.5rem)] overflow-y-auto">
         <NuxtPage />
       </main>
     </div>
