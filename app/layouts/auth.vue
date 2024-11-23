@@ -11,7 +11,7 @@ const { loggedIn } = useUserSession();
 
 watchEffect(() => {
   if (loggedIn.value) {
-    navigateTo('/notes');
+    navigateTo("/notes", { replace: true });
   }
 });
 </script>
