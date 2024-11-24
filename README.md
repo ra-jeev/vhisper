@@ -10,6 +10,10 @@ Live demo: <https://vhisper.nuxt.dev>
 
 ![Vhisper Home Page](.github/resources/home.png)
 
+## Preview
+
+https://github.com/user-attachments/assets/8c766706-4ed6-440d-b977-cd0f9b30f2b5
+
 ## Key Features
 
 - **User Authentication:** Secure access with username/password.
