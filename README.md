@@ -1,60 +1,121 @@
-# Hello Edge
+# Vhisper - In-browser Voice Notes
 
-A minimal [Nuxt](https://nuxt.com) starter deployed on the Edge using [NuxtHub](https://hub.nuxt.com).
+Vhisper is a serverless voice notes application built with Nuxt 3 that leverages various Cloudflare services through NuxtHub for it to work. It allows users to record voice notes, transcribe and post process them using AI, and manage them through a simple, intuitive interface.
 
-https://hello.nuxt.dev
+## Try it Out
 
-<a href="https://hello.nuxt.dev">
-<img src="https://github.com/nuxt-hub/hello-edge/assets/904724/99d1bd54-ef7e-4ac9-83ad-0a290f85edcf" alt="Hello World template for NuxtHub" />
-</a>
+Live demo: <https://vhisper.nuxt.dev>
 
-## Features
+[![Deploy to NuxtHub](https://hub.nuxt.com/button.svg)](https://hub.nuxt.com/new?template=vhisper)
 
-- Server-Side rendering on Cloudflare Workers
-- ESLint setup
-- Ready to add a database, blob and KV storage
-- One click deploy on 275+ locations for free
+![Vhisper Home Page](.github/resources/home.png)
 
-## Setup
+## Key Features
 
-Make sure to install the dependencies with [pnpm](https://pnpm.io/installation#using-corepack):
+- **User Authentication:** Secure access with username/password.
+- **Record Voice Notes:** Record multiple audio clips per note. Real-time audio visualization during recording.
+- **Speech-to-Text Transcription:** Automatically transcribe recordings into text using `Whisper` AI model.
+- **Post-Processing:** Optionally correct and refine transcriptions for better accuracy and clarity (`Llama 3.1` model). Local settings persistence.
+- **Notes Management:** View and manage saved notes with playback for each audio recording.
+
+## Technologies Used
+
+- [Nuxt](https://nuxt.com): Vue.js framework for the application foundation
+- [Nuxt UI (v3)](https://ui3.nuxt.com): For creating a good looking and professional frontend
+- [Nuxt Auth Utils](https://github.com/atinux/nuxt-auth-utils): Module for user authentication
+- [NuxtHub](https://hub.nuxt.com): Backend (`database`, `storage`, `AI` etc.), deployment and administration platform for Nuxt
+- [Cloudflare](https://developers.cloudflare.com): Powers NuxtHub to provide various services
+
+## Setup Instructions
+
+### Prerequisites
+
+- **Node.js (v18 or later):** Required for development and building the project.
+- **Cloudflare Account:** You'll need a Cloudflare account to use Workers AI, D1, and R2 storage, and to deploy the project.
+- **NuxtHub Account:** To leverage NuxtHub DX as an interface to Cloudflare
+
+### Installation
+
+Clone the repository and install dependencies:
 
 ```bash
-pnpm install
+pnpm install # or equivalent command
 ```
 
-You can update the main text displayed by creating a `.env`:
+### Environment Setup
+
+Before using Workers AI in development, you need to link to a NuxtHub project. This is needed as during local development also, AI models are run against your Cloudflare account. [See pricing and free quote details](https://developers.cloudflare.com/workers-ai/platform/pricing).
+
+You can either put the NuxtHub project key manually in the `.env` file, or use the CLI to create/link a project.
 
 ```bash
-NUXT_PUBLIC_HELLO_TEXT="Hello my world!"
+NUXT_SESSION_PASSWORD=at_least_32_chars_string
+NUXT_HUB_PROJECT_KEY=your_nuxthub_project_key
 ```
 
-## Development Server
+**1. Using .env file:**
 
-Start the development server on `http://localhost:3000`:
+- Copy .env.example to .env
+- Fill in required variables
+- For local development, `NUXT_SESSION_PASSWORD` will be auto-generated if not provided
+
+**2. Using NuxtHub CLI:**
+
+```bash
+npx nuxthub link
+```
+
+This will:
+
+- Create/link a NuxtHub project
+- Set up necessary Cloudflare resources
+- Configure `NUXT_HUB_PROJECT_KEY` automatically
+
+## Usage
+
+### Running the Development Server
 
 ```bash
 pnpm dev
 ```
 
-## Production
+### Notes Page
 
-Build the application for production:
+![Vhisper Notes Page](.github/resources/notes.png)
 
-```bash
-pnpm build
-```
+### Note Creation Page
 
-## Deploy
+![Vhisper Note Creation Page](.github/resources/create.png)
 
+The app will be available at `http://localhost:3000`.
 
-Deploy the application on the Edge with [NuxtHub](https://hub.nuxt.com) on your Cloudflare account:
+## Deployment
+
+[![Deploy to NuxtHub](https://hub.nuxt.com/button.svg)](https://hub.nuxt.com/new?template=vhisper)
+
+Once you're ready, you can deploy using either the following ways:
+
+### Deploy via NuxtHub Admin
+
+- Push your code to a GitHub repository.
+- Link the repository with NuxtHub.
+- Do not forget to add the environment variables (you only need to add the session password)
+- Deploy from the Admin console.
+
+[Learn more about Git integration](https://hub.nuxt.com/docs/getting-started/deploy#cloudflare-pages-ci)
+
+### Deploy via NuxtHub CLI
 
 ```bash
 npx nuxthub deploy
 ```
 
-Then checkout your server logs, analaytics and more in the [NuxtHub Admin](https://admin.hub.nuxt.com).
+[Learn more about CLI deployment](https://hub.nuxt.com/docs/getting-started/deploy#nuxthub-cli)
 
-You can also deploy using [Cloudflare Pages CI](https://hub.nuxt.com/docs/getting-started/deploy#cloudflare-pages-ci).
+## Contributing
 
+Contributions are welcome! If you find any issues or want to add new features, feel free to fork the repo, create a branch, and submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
