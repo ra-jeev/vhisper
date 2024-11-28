@@ -22,6 +22,8 @@ https://github.com/user-attachments/assets/8c766706-4ed6-440d-b977-cd0f9b30f2b5
 - **Post-Processing:** Optionally correct and refine transcriptions for better accuracy and clarity (`Llama 3.1` model). Local settings persistence.
 - **Notes Management:** View and manage saved notes with playback for each audio recording.
 
+Read the [associated blog post](https://rajeev.dev/building-voice-notes-app-with-ai-transcription-and-post-processing) to learn how to create this application from scratch.
+
 ## Technologies Used
 
 - [Nuxt](https://nuxt.com): Vue.js framework for the application foundation
