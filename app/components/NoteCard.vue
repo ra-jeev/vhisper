@@ -1,7 +1,7 @@
 <template>
   <UCard class="hover:shadow-lg transition-shadow">
     <div class="flex justify-between items-start gap-x-4">
-      <div class="flex-1">
+      <div class="flex-1 space-y-1">
         <p
           ref="text"
           :class="['whitespace-pre-wrap', !showFullText && 'line-clamp-3']"
@@ -10,8 +10,8 @@
         </p>
         <UButton
           v-if="shouldShowExpandBtn"
+          class="p-0"
           variant="link"
-          :padded="false"
           @click="showFullText = !showFullText"
         >
           {{ showFullText ? "Show less" : "Show more" }}

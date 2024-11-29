@@ -10,7 +10,7 @@ const props = defineProps<{
 
 let width = 0;
 let height = 0;
-const audioCanvas = useTemplateRef("canvas");
+const audioCanvas = useTemplateRef<HTMLCanvasElement>("canvas");
 const canvasCtx = ref<CanvasRenderingContext2D | null>(null);
 
 onMounted(() => {

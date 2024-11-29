@@ -9,7 +9,6 @@ export default defineNuxtConfig({
   hub: {
     ai: true,
     database: true,
-    cache: true,
     blob: true,
   },
 
