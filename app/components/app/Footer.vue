@@ -37,5 +37,10 @@ const socials = [
     icon: "i-simple-icons-github",
     to: "https://github.com/ra-jeev",
   },
+  {
+    label: "Hashnode Blog",
+    icon: "i-lucide-feather",
+    to: "https://rajeev.dev",
+  },
 ];
 </script>
