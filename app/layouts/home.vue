@@ -22,7 +22,7 @@
     </AppHeader>
 
     <main>
-      <NuxtPage />
+      <slot />
     </main>
 
     <AppFooter />

@@ -41,7 +41,7 @@
       </AppHeader>
 
       <main class="p-4 sm:p-6 h-[calc(100dvh-3.5rem)] overflow-y-auto">
-        <NuxtPage />
+        <slot />
       </main>
     </div>
   </div>
